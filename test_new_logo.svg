@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Background squircle gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="46%" r="65%">
+      <stop offset="0%" stop-color="#227d48" />
+      <stop offset="50%" stop-color="#165e34" />
+      <stop offset="85%" stop-color="#0d3c20" />
+      <stop offset="100%" stop-color="#082915" />
+    </radialGradient>
+
+    <!-- Beveled central disc plate -->
+    <radialGradient id="plateGrad" cx="48%" cy="44%" r="58%">
+      <stop offset="0%" stop-color="#289456" />
+      <stop offset="65%" stop-color="#176037" />
+      <stop offset="92%" stop-color="#0e4224" />
+      <stop offset="100%" stop-color="#0a341b" />
+    </radialGradient>
+
+    <!-- Lens Concentric Rings Gradients -->
+    <radialGradient id="lensBezelGrad" cx="45%" cy="42%" r="60%">
+      <stop offset="0%" stop-color="#23864d" />
+      <stop offset="70%" stop-color="#13532c" />
+      <stop offset="100%" stop-color="#0a371c" />
+    </radialGradient>
+
+    <radialGradient id="lensRing1Grad" cx="45%" cy="42%" r="60%">
+      <stop offset="0%" stop-color="#1e7542" />
+      <stop offset="65%" stop-color="#114b27" />
+      <stop offset="100%" stop-color="#082e16" />
+    </radialGradient>
+
+    <radialGradient id="lensPupilGrad" cx="42%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#0e311d" />
+      <stop offset="45%" stop-color="#071b0f" />
+      <stop offset="85%" stop-color="#020904" />
+      <stop offset="100%" stop-color="#000201" />
+    </radialGradient>
+
+    <!-- Botanical Leaf Gradient -->
+    <linearGradient id="leafGrad" x1="15%" y1="88%" x2="82%" y2="12%">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#4ade80" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#86efac" stop-opacity="0.95" />
+    </linearGradient>
+
+    <!-- Sparkle Gold Gradients -->
+    <linearGradient id="goldArcGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="45%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#fbbf24" />
+    </linearGradient>
+
+    <radialGradient id="sparkleCore" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="35%" stop-color="#fef08a" />
+      <stop offset="75%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </radialGradient>
+  </defs>
+
+  <!-- ================= BASE SQUIRCLE ================= -->
+  <rect width="512" height="512" rx="116" fill="url(#bgGrad)" />
+
+  <!-- Outer Highlight Rim -->
+  <rect x="3" y="3" width="506" height="506" rx="114" fill="none" stroke="rgba(255,255,255,0.13)" stroke-width="2.5" />
+  <rect x="6" y="6" width="500" height="500" rx="112" fill="none" stroke="rgba(0,0,0,0.32)" stroke-width="2" />
+
+  <!-- ================= EMBOSSED CIRCULAR PLATE ================= -->
+  <!-- Plate Inset Shadow -->
+  <circle cx="256" cy="242" r="196" fill="rgba(0,0,0,0.28)" />
+  <!-- Plate Body -->
+  <circle cx="256" cy="238" r="194" fill="url(#plateGrad)" stroke="rgba(255,255,255,0.12)" stroke-width="2" />
+  <circle cx="256" cy="240" r="188" fill="none" stroke="rgba(0,0,0,0.18)" stroke-width="1.5" />
+
+  <!-- ================= CAMERA LENS CONCENTRIC RINGS ================= -->
+  <!-- Outer Bezel Ring -->
+  <circle cx="256" cy="240" r="146" fill="url(#lensBezelGrad)" stroke="#093119" stroke-width="2.5" />
+
+  <!-- Metallic Highlight Ring 1 -->
+  <circle cx="256" cy="240" r="132" fill="none" stroke="#34d399" stroke-width="1.5" opacity="0.8" />
+  <circle cx="256" cy="240" r="130" fill="#104726" />
+
+  <!-- Dark Groove 1 -->
+  <circle cx="256" cy="240" r="116" fill="#0b371c" stroke="rgba(0,0,0,0.45)" stroke-width="1.8" />
+
+  <!-- Ring 2 -->
+  <circle cx="256" cy="240" r="102" fill="url(#lensRing1Grad)" stroke="#22c55e" stroke-width="1.2" />
+
+  <!-- Dark Groove 2 -->
+  <circle cx="256" cy="240" r="88" fill="#082a15" />
+
+  <!-- Inner Bezel -->
+  <circle cx="256" cy="240" r="74" fill="#0f4322" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
+
+  <!-- Central Optical Core (Pupil) -->
+  <circle cx="256" cy="240" r="58" fill="url(#lensPupilGrad)" />
+  <circle cx="256" cy="240" r="44" fill="#010603" />
+
+  <!-- Glass Specular Reflection Highlight (Oval rotated -35 deg) -->
+  <ellipse cx="240" cy="220" rx="15" ry="10" transform="rotate(-35 240 220)" fill="#ffffff" opacity="0.95" />
+  <circle cx="253" cy="234" r="3" fill="#a7f3d0" opacity="0.75" />
+
+  <!-- ================= BOTANICAL DNA LEAF ================= -->
+  <g>
+    <!-- Leaf Body Shadow -->
+    <path d="M 152 308 C 132 230 148 140 216 88 C 248 64 282 70 274 94 C 258 136 210 188 198 238 C 190 272 198 296 206 312 C 188 316 168 316 152 308 Z" fill="rgba(0,0,0,0.22)" />
+
+    <!-- Leaf Translucent Body -->
+    <path d="M 150 304 C 130 226 146 136 214 84 C 246 60 280 66 272 90 C 256 132 208 184 196 234 C 188 268 196 292 204 308 C 186 312 166 312 150 304 Z" 
+          fill="url(#leafGrad)" stroke="#86efac" stroke-width="3" stroke-linejoin="round" />
+
+    <!-- Leaf Internal DNA / Vein Ribs -->
+    <path d="M 160 272 C 172 266 186 268 198 274" stroke="#dcfce7" stroke-width="2.2" stroke-linecap="round" opacity="0.75" />
+    <path d="M 152 232 C 166 225 182 226 195 235" stroke="#dcfce7" stroke-width="2.2" stroke-linecap="round" opacity="0.75" />
+    <path d="M 152 192 C 168 184 186 185 204 196" stroke="#dcfce7" stroke-width="2.2" stroke-linecap="round" opacity="0.75" />
+    <path d="M 162 152 C 180 144 200 146 220 158" stroke="#dcfce7" stroke-width="2.2" stroke-linecap="round" opacity="0.75" />
+    <path d="M 182 118 C 200 110 222 114 242 126" stroke="#dcfce7" stroke-width="2.2" stroke-linecap="round" opacity="0.75" />
+    <path d="M 216 90 C 232 86 250 90 266 100" stroke="#dcfce7" stroke-width="2.2" stroke-linecap="round" opacity="0.75" />
+  </g>
+
+  <!-- ================= GOLDEN SPARKLES & AMBER SWOOSH ================= -->
+  <!-- Amber Swoosh Arc -->
+  <path d="M 338 222 C 354 188 372 154 396 122" fill="none" stroke="url(#goldArcGrad)" stroke-width="5" stroke-linecap="round" />
+
+  <!-- Micro Dot Sparkle -->
+  <circle cx="328" cy="128" r="3.5" fill="#fef08a" />
+  
+  <!-- Star 1 (at 328, 128) -->
+  <path d="M 328 116 Q 328 128 340 128 Q 328 128 328 140 Q 328 128 316 128 Q 328 128 328 116 Z" fill="#fbbf24" />
+
+  <!-- Main Radiant Star (at 366, 138) -->
+  <path d="M 366 112 Q 366 138 392 138 Q 366 138 366 164 Q 366 138 340 138 Q 366 138 366 112 Z" fill="url(#sparkleCore)" />
+  <circle cx="366" cy="138" r="4.8" fill="#ffffff" />
+
+  <!-- Medium Star 2 (at 400, 162) -->
+  <path d="M 400 148 Q 400 162 414 162 Q 400 162 400 176 Q 400 162 386 162 Q 400 162 400 148 Z" fill="#fbbf24" />
+
+  <!-- ================= TEXT & SMILE UNDERLINE ================= -->
+  <!-- Curved White Underline Arc -->
+  <!-- Drop shadow for underline -->
+  <path d="M 113.6 343.5 A 176 176 0 0 0 398.4 343.5" fill="none" stroke="rgba(0,0,0,0.35)" stroke-width="6" stroke-linecap="round" transform="translate(0, 2)" />
+  <!-- Crisp White Underline -->
+  <path d="M 113.6 343.5 A 176 176 0 0 0 398.4 343.5" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" />
+
+  <!-- Curved Text TUNUTRILENS -->
+    <text x="131.5" y="337.3" transform="rotate(52.0 131.5 337.3)" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="900" font-size="27" fill="#ffffff" text-anchor="middle" dominant-baseline="central" letter-spacing="0.5">T</text>
+    <text x="151.1" y="358.2" transform="rotate(41.6 151.1 358.2)" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="900" font-size="27" fill="#ffffff" text-anchor="middle" dominant-baseline="central" letter-spacing="0.5">U</text>
+    <text x="174.2" y="375.1" transform="rotate(31.2 174.2 375.1)" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="900" font-size="27" fill="#ffffff" text-anchor="middle" dominant-baseline="central" letter-spacing="0.5">N</text>
+    <text x="199.9" y="387.7" transform="rotate(20.8 199.9 387.7)" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="900" font-size="27" fill="#ffffff" text-anchor="middle" dominant-baseline="central" letter-spacing="0.5">U</text>
+    <text x="227.5" y="395.4" transform="rotate(10.4 227.5 395.4)" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="900" font-size="27" fill="#ffffff" text-anchor="middle" dominant-baseline="central" letter-spacing="0.5">T</text>
+    <text x="256.0" y="398.0" transform="rotate(0.0 256.0 398.0)" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="900" font-size="27" fill="#ffffff" text-anchor="middle" dominant-baseline="central" letter-spacing="0.5">R</text>
+    <text x="284.5" y="395.4" transform="rotate(-10.4 284.5 395.4)" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="900" font-size="27" fill="#ffffff" text-anchor="middle" dominant-baseline="central" letter-spacing="0.5">I</text>
+    <text x="312.1" y="387.7" transform="rotate(-20.8 312.1 387.7)" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="900" font-size="27" fill="#ffffff" text-anchor="middle" dominant-baseline="central" letter-spacing="0.5">L</text>
+    <text x="337.8" y="375.1" transform="rotate(-31.2 337.8 375.1)" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="900" font-size="27" fill="#ffffff" text-anchor="middle" dominant-baseline="central" letter-spacing="0.5">E</text>
+    <text x="360.9" y="358.2" transform="rotate(-41.6 360.9 358.2)" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="900" font-size="27" fill="#ffffff" text-anchor="middle" dominant-baseline="central" letter-spacing="0.5">N</text>
+    <text x="380.5" y="337.3" transform="rotate(-52.0 380.5 337.3)" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="900" font-size="27" fill="#ffffff" text-anchor="middle" dominant-baseline="central" letter-spacing="0.5">S</text>
+</svg>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <meta name="theme-color" content="#059669" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="TuNutriLens" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>TuNutriLens - Tu Nutricionista de Bolsillo</title>
+    <meta name="description" content="Tu Nutricionista de Bolsillo. TuNutriLens no es una calculadora de calorías aburrida: es tu asistente visual inteligente para aprender a comer con criterio científico." />
+    <link rel="canonical" href="https://tunutrilens.es/" />
+    
+    <!-- Open Graph & Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="TuNutriLens - Tu Nutricionista de Bolsillo" />
+    <meta property="og:description" content="Tu Nutricionista de Bolsillo. Aprende a comer con criterio científico, sin culpas ni restricciones absurdas." />
+    <meta property="og:url" content="https://tunutrilens.es/" />
+    <meta property="og:image" content="https://tunutrilens.es/icon-512.png" />
+    <meta property="og:locale" content="es_ES" />
+    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "TuNutriLens",
+      "url": "https://tunutrilens.es",
+      "description": "Tu Nutricionista de Bolsillo. Software de Nutrición Visual Inteligente.",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "All",
+      "author": {
+        "@type": "Organization",
+        "name": "TuNutriLens",
+        "url": "https://tunutrilens.es"
+      }
+    }
+    </script>
+    
+    <!-- Evitar almacenamiento en caché rígido del index.html en navegadores móviles -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-stone-50 text-stone-900 font-['Plus_Jakarta_Sans',sans-serif] antialiased selection:bg-emerald-200 min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Clear legacy caches to prevent stuck versions
+      if ('caches' in window) {
+        caches.keys().then(function(keys) {
+          keys.forEach(function(key) {
+            if (key !== 'tunutrilens-pwa-v21') {
+              caches.delete(key);
+            }
+          });
+        });
+      }
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js?v=21', { updateViaCache: 'none' }).then(function(reg) {
+            reg.update();
+
+            reg.addEventListener('updatefound', function() {
+              var newWorker = reg.installing;
+              if (newWorker) {
+                newWorker.addEventListener('statechange', function() {
+                  if (newWorker.state === 'installed') {
+                    if (navigator.serviceWorker.controller) {
+                      newWorker.postMessage({ type: 'SKIP_WAITING' });
+                    }
+                  }
+                });
+              }
+            });
+          });
+
+          var refreshing = false;
+          navigator.serviceWorker.addEventListener('controllerchange', function() {
+            if (!refreshing) {
+              refreshing = true;
+              window.location.reload();
+            }
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

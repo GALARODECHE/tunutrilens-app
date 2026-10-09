@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    font-size: 16px;
+    transition: font-size 0.15s ease-in-out;
+  }
+
+  html.text-size-normal {
+    font-size: 16px;
+  }
+
+  html.text-size-large {
+    font-size: 18.25px;
+  }
+
+  html.text-size-xlarge {
+    font-size: 20.5px;
+  }
+
+  /* Ensure extra-small text is legible when large or xlarge text is selected */
+  html.text-size-large [class*="text-[9px]"],
+  html.text-size-large [class*="text-[10px]"] {
+    font-size: 12px !important;
+  }
+  html.text-size-large [class*="text-[11px]"] {
+    font-size: 13px !important;
+  }
+
+  html.text-size-xlarge [class*="text-[9px]"],
+  html.text-size-xlarge [class*="text-[10px]"] {
+    font-size: 13.5px !important;
+  }
+  html.text-size-xlarge [class*="text-[11px]"] {
+    font-size: 14.5px !important;
+  }
+  
+  body {
+    @apply bg-stone-50/80 text-stone-900 font-sans antialiased;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent automatic iOS page zoom when tapping inputs */
+  @media (max-width: 768px) {
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="password"],
+    textarea,
+    select {
+      font-size: 16px !important;
+    }
+  }
+}
+
+/* Touch manipulation & safe area utilities for iOS */
+button, a, input, select, textarea {
+  touch-action: manipulation;
+}
+
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
+}
+
+.pt-safe {
+  padding-top: max(0.5rem, env(safe-area-inset-top, 0.5rem));
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d6d3d1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a29e;
+}

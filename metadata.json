@@ -1,0 +1,10 @@
+{
+  "name": "TuNutriLens",
+  "description": "TuNutriLens - Calculadora nutricional inteligente por imagen. Analiza calorías, macronutrientes y micronutrientes de tus platos con IA para perder peso y mejorar tu alimentación.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
