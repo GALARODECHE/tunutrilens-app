@@ -64,7 +64,7 @@ export function exportHealthDataRGPD(): RGPDExportResult {
         ? 'Tarifa Ilimitada TuNutriLens (7,49 €/mes)'
         : subscriptionPlan === 'b2c_pro'
           ? 'Plan Pro (4,99 €/mes)'
-          : 'Plan Gratuito (5 fotos/mes)',
+          : 'Plan Gratuito (Pase Tester Ilimitado)',
       status: 'Activo',
       satisfactionGuarantee: 'Garantía 14 Días 100% Reembolsable',
       cancellationPolicy: 'Sin permanencia ni penalización. Cancelación en 1 clic.'

@@ -13,10 +13,17 @@
  * Al suscribirse o cambiar de tarifa, el contador de escaneos se reinicia automáticamente a cero.
  */
 
-export const MONTHLY_FREE_SCANS_LIMIT = 5; // 5 fotos al mes en total (Plato y Supermercado)
+export const MONTHLY_FREE_SCANS_LIMIT = 5; // 5 fotos al mes en total (Plato y Supermercado) en producción
 export const MONTHLY_PREMIUM_SCANS_LIMIT = 40; // 40 fotos al mes en total para Premium Pro (para empujar a la tarifa Ilimitada)
 export const UNLIMITED_FAIR_USE_SOFT_CAP = 600; // 600 fotos/mes: Política de Uso Justo (Fair Use) para blindaje anti-abuso masivo
 export const ANTI_BOT_MIN_INTERVAL_MS = 3000; // 3 segundos mínimos entre capturas (evita scripts/bots que envían ráfagas automáticas)
+
+/**
+ * Bandera para la fase de pruebas de Google Play (20+ testers):
+ * Desactiva la limitación de 5 capturas en el plan gratuito para que los testers
+ * puedan probar todos los escáneres con IA sin bloqueos ni restricciones.
+ */
+export const TESTER_UNLIMITED_FREE_ACCESS = true;
 
 export type SubscriptionPlanId = 'b2c_free' | 'b2c_pro' | 'b2c_unlimited';
 
@@ -68,6 +75,7 @@ export function getSubscriptionPlan(): SubscriptionPlanId {
 }
 
 export function isUserSubscribed(): boolean {
+  if (TESTER_UNLIMITED_FREE_ACCESS) return true; // Acceso total para testers durante la fase de validación
   const plan = getSubscriptionPlan();
   return plan === 'b2c_pro' || plan === 'b2c_unlimited';
 }
@@ -199,7 +207,23 @@ export function getScanUsage(): UsageStatus {
     };
   }
 
-  // Plan Gratuito
+  // Plan Gratuito (Limitación de 5 capturas temporalmente eliminada para testers)
+  if (TESTER_UNLIMITED_FREE_ACCESS) {
+    return {
+      used,
+      total: 9999,
+      remaining: 9999,
+      isUnlimited: true,
+      isPro: false,
+      isFree: true,
+      canProceed: true, // NUNCA bloquea a los testers
+      period: 'monthly',
+      daysUntilReset,
+      planId: 'b2c_free',
+      planLabel: 'Gratuito (Pase Tester Ilimitado)'
+    };
+  }
+
   const total = MONTHLY_FREE_SCANS_LIMIT;
   const remaining = Math.max(0, total - used);
   return {

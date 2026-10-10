@@ -19,6 +19,11 @@ export const DailyLimitModal: React.FC<Props> = ({
 
   const usage = getScanUsage();
 
+  // Si el usuario puede proceder (Pase Tester ilimitado activo en fase de pruebas), no bloquear
+  if (usage.canProceed && !usage.isFairUseExceeded && !usage.isPro) {
+    return null;
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs animate-in fade-in duration-200">
       <div 

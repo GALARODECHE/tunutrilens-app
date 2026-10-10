@@ -151,13 +151,13 @@ export const PricingScreen: React.FC = () => {
             </div>
 
             {/* Cuadro destacado */}
-            <div className="p-3.5 bg-slate-50/90 border border-slate-200/80 rounded-2xl space-y-1">
-              <p className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+            <div className="p-3.5 bg-emerald-50/90 border border-emerald-200/80 rounded-2xl space-y-1">
+              <p className="text-xs font-bold text-emerald-900 flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Descubre y prueba la IA en tu día a día</span>
+                <span>🧪 Acceso Tester: Escaneos Ilimitados Activos</span>
               </p>
-              <p className="text-[11px] text-slate-600 leading-relaxed">
-                Incluye 5 escaneos fotográficos mensuales en Plato y Supermercado, además de acceso completo al apartado Descubrir.
+              <p className="text-[11px] text-emerald-800 leading-relaxed font-medium">
+                Durante el periodo de pruebas cerrado, la limitación de 5 capturas está retirada para que los testers podáis analizar fotos sin restricciones.
               </p>
             </div>
 

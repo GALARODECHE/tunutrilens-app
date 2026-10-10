@@ -159,7 +159,7 @@ IMPORTANTE:
           <Zap className={`w-3.5 h-3.5 ${chatUsage.isUnlimited ? 'text-emerald-600' : 'text-amber-500'}`} />
           <span className="font-semibold">
             {chatUsage.isUnlimited
-              ? `Plan Premium: ${chatUsage.remaining} consultas disponibles este mes`
+              ? (chatUsage.isFree ? 'Pase Tester: Consultas y escaneos ilimitados habilitados' : `Plan Premium: ${chatUsage.remaining} consultas disponibles este mes`)
               : `Consultas de prueba: ${chatUsage.remaining} de ${chatUsage.total} restantes`}
           </span>
         </div>

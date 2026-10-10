@@ -113,10 +113,10 @@ export const ProfileScreen: React.FC<Props> = ({ userProfile, onUpdateProfile, o
       };
     }
     return {
-      name: 'Plan Gratuito',
-      price: '0 € para siempre (5 fotos / mes)',
-      badge: 'Plan Gratuito',
-      badgeColor: 'bg-slate-100 text-slate-800 border-slate-300'
+      name: 'Plan Gratuito (Pase Tester)',
+      price: '0 € para siempre (Ilimitado en pruebas)',
+      badge: 'Tester Ilimitado',
+      badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-300'
     };
   };
 
@@ -252,7 +252,7 @@ export const ProfileScreen: React.FC<Props> = ({ userProfile, onUpdateProfile, o
                 ? 'Premium Ilimitado' 
                 : currentPlan === 'b2c_pro' 
                   ? 'Premium Pro' 
-                  : 'Gratuito (5 fotos/mes)'}
+                  : 'Gratuito (Tester Ilimitado)'}
             </span>
           </div>
         </div>
