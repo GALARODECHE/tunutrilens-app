@@ -352,7 +352,7 @@ Devuelve EXCLUSIVAMENTE un JSON con un array de objetos llamado "detectedItems":
 Categorías válidas para 'category': 'Verdura/Hortaliza', 'Proteína/Carne/Pescado', 'Lácteo/Huevo', 'Legumbre/Cereal', 'Fruta/Fruto Seco', 'Otro'.`;
 
         const response = await ai.models.generateContent({
-          model: 'gemini-2.5-flash',
+          model: 'gemini-3.6-flash',
           contents: [
             {
               role: 'user',
@@ -518,7 +518,7 @@ Devuelve EXCLUSIVAMENTE un array JSON con esta estructura exacta para cada recet
 ]`;
 
         const response = await ai.models.generateContent({
-          model: 'gemini-2.5-flash',
+          model: 'gemini-3.6-flash',
           contents: promptText,
           config: { responseMimeType: 'application/json' },
         });

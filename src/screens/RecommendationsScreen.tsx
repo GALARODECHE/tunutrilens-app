@@ -250,7 +250,7 @@ DEVUELVE EXCLUSIVAMENTE UN ARRAY JSON DE OBJETOS con esta estructura:
 ]`;
 
         const response = await ai.models.generateContent({
-          model: 'gemini-2.5-flash',
+          model: 'gemini-3.6-flash',
           contents: promptText,
           config: {
             responseMimeType: 'application/json',
