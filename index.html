@@ -61,7 +61,7 @@
       if ('caches' in window) {
         caches.keys().then(function(keys) {
           keys.forEach(function(key) {
-            if (key !== 'tunutrilens-pwa-v21') {
+            if (key !== 'tunutrilens-pwa-v22') {
               caches.delete(key);
             }
           });
@@ -70,7 +70,7 @@
 
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/sw.js?v=21', { updateViaCache: 'none' }).then(function(reg) {
+          navigator.serviceWorker.register('/sw.js?v=22', { updateViaCache: 'none' }).then(function(reg) {
             reg.update();
 
             reg.addEventListener('updatefound', function() {

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tunutrilens-pwa-v21';
+const CACHE_NAME = 'tunutrilens-pwa-v22';
 const PRECACHE_ASSETS = [
   '/manifest.json',
   '/icon-192.png',
