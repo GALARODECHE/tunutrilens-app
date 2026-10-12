@@ -174,7 +174,18 @@ export const ScannerScreen: React.FC<Props> = ({
     }
   };
 
+  const triggerHaptic = (pattern: number[] = [30, 20, 30]) => {
+    if (typeof window !== 'undefined' && 'navigator' in window && 'vibrate' in navigator) {
+      try {
+        navigator.vibrate(pattern);
+      } catch (_) {
+        // Safe fallback
+      }
+    }
+  };
+
   const showToast = (message: string) => {
+    triggerHaptic([35, 25, 35]);
     setSaveToast(message);
     setTimeout(() => {
       setSaveToast(null);
@@ -230,7 +241,7 @@ export const ScannerScreen: React.FC<Props> = ({
     setSelectedImage(capturedDataUrl);
 
     try {
-      const processed = await processAndCompressImage(capturedDataUrl, 1024, 0.85);
+      const processed = await processAndCompressImage(capturedDataUrl, 768, 0.78);
       setSelectedImage(processed.dataUrl);
       if (scanMode === 'dish') {
         await analyzeHomeDish(processed.dataUrl, processed.base64, processed.mimeType, customNotes);
@@ -276,7 +287,7 @@ export const ScannerScreen: React.FC<Props> = ({
     setAnalysisStep('Optimizando resolución y contraste...');
 
     try {
-      const processed = await processAndCompressImage(file, 1024, 0.85);
+      const processed = await processAndCompressImage(file, 768, 0.78);
       setSelectedImage(processed.dataUrl);
       if (scanMode === 'dish') {
         await analyzeHomeDish(processed.dataUrl, processed.base64, processed.mimeType, customNotes);
@@ -818,30 +829,86 @@ export const ScannerScreen: React.FC<Props> = ({
             </button>
           </div>
 
-          {/* Loading State with Progression & Anti-Stall Controls */}
+          {/* High-Tech Viewfinder HUD Scanner Loading State - Oportunidad de Mejora 3 */}
           {isAnalyzing && (
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-emerald-300 text-center space-y-4 shadow-md animate-in fade-in">
-              <div className="relative w-16 h-16 mx-auto">
-                <div className="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center shadow-inner">
-                  <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
-                </div>
-                <span className="absolute -bottom-1 -right-1 bg-slate-900 text-emerald-400 font-mono text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-emerald-500/50">
-                  {analysisElapsedSeconds}s
-                </span>
-              </div>
+            <div className="bg-slate-950 text-white rounded-3xl p-5 sm:p-6 border-2 border-emerald-500/80 shadow-2xl space-y-4 animate-in fade-in overflow-hidden relative">
+              {/* Background ambient glow */}
+              <div className="absolute -top-24 -left-24 w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-teal-500/20 rounded-full blur-3xl pointer-events-none" />
 
-              <div className="space-y-1.5 max-w-sm mx-auto">
-                <h3 className="text-base font-black text-slate-900">
-                  {analysisStep || 'Analizando con IA Nutricional...'}
-                </h3>
-                <p className="text-xs text-slate-500">
-                  Estimando ingredientes exactos, peso en gramos, macronutrientes y micronutrientes mediterráneos.
+              {selectedImage ? (
+                /* Interactive Viewfinder with Laser Scanner */
+                <div className="relative rounded-2xl overflow-hidden max-h-64 sm:max-h-80 bg-black border border-emerald-500/50 flex items-center justify-center">
+                  <img
+                    src={selectedImage}
+                    alt="Plato siendo escaneado"
+                    className="w-full h-full object-cover opacity-85 brightness-95"
+                  />
+                  {/* Holographic grid overlay */}
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-emerald-950/20 to-black/60 pointer-events-none" />
+
+                  {/* Corner Viewfinder brackets */}
+                  <div className="absolute top-3 left-3 w-6 h-6 border-t-2 border-l-2 border-emerald-400 rounded-tl-sm pointer-events-none" />
+                  <div className="absolute top-3 right-3 w-6 h-6 border-t-2 border-r-2 border-emerald-400 rounded-tr-sm pointer-events-none" />
+                  <div className="absolute bottom-3 left-3 w-6 h-6 border-b-2 border-l-2 border-emerald-400 rounded-bl-sm pointer-events-none" />
+                  <div className="absolute bottom-3 right-3 w-6 h-6 border-b-2 border-r-2 border-emerald-400 rounded-br-sm pointer-events-none" />
+
+                  {/* Scanning Laser Line */}
+                  <div className="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_20px_#10b981] animate-scan-laser z-20 pointer-events-none">
+                    <div className="w-full h-full bg-emerald-300 blur-[1px]" />
+                  </div>
+
+                  {/* Central Reticle */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="w-16 h-16 rounded-full border border-emerald-400/40 flex items-center justify-center animate-ping duration-1000">
+                      <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                    </div>
+                  </div>
+
+                  {/* Top HUD Badge */}
+                  <div className="absolute top-3 inset-x-0 flex justify-center pointer-events-none z-10">
+                    <span className="px-3 py-1 bg-slate-900/90 text-emerald-400 border border-emerald-500/60 rounded-full text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-md flex items-center gap-1.5 animate-pulse">
+                      <Sparkles className="w-3 h-3 text-emerald-300" />
+                      <span>HUD IA • Escaneando nutrientes</span>
+                    </span>
+                  </div>
+
+                  {/* Bottom HUD Timer Badge */}
+                  <div className="absolute bottom-3 right-3 z-10 pointer-events-none">
+                    <span className="bg-slate-900/90 text-emerald-400 font-mono text-[11px] font-bold px-2 py-0.5 rounded-full border border-emerald-500/60 shadow-md">
+                      ⏱️ {analysisElapsedSeconds}s
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                /* Fallback without image */
+                <div className="relative w-20 h-20 mx-auto py-2">
+                  <div className="w-16 h-16 mx-auto rounded-2xl bg-emerald-900/40 border border-emerald-500/50 text-emerald-400 flex items-center justify-center shadow-lg animate-glow-pulse">
+                    <Loader2 className="w-8 h-8 animate-spin text-emerald-400" />
+                  </div>
+                  <span className="absolute -bottom-1 -right-1 bg-slate-900 text-emerald-400 font-mono text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-emerald-500/50">
+                    {analysisElapsedSeconds}s
+                  </span>
+                </div>
+              )}
+
+              {/* Dynamic steps text and progress bar */}
+              <div className="space-y-2 text-center max-w-md mx-auto pt-1">
+                <div className="flex items-center justify-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping inline-block" />
+                  <h3 className="text-sm sm:text-base font-black text-emerald-300">
+                    {analysisStep || 'Analizando con IA Nutricional...'}
+                  </h3>
+                </div>
+                <p className="text-[11px] sm:text-xs text-slate-400">
+                  Identificando ingredientes exactos, gramos estimados, macronutrientes y equilibrio mediterráneo.
                 </p>
+
                 {/* Progress bar */}
-                <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden mt-3">
-                  <div 
-                    className="bg-emerald-500 h-full rounded-full transition-all duration-500 ease-out"
-                    style={{ width: `${Math.min(95, 20 + analysisElapsedSeconds * 16)}%` }}
+                <div className="w-full bg-slate-800 rounded-full h-2 overflow-hidden mt-2 p-0.5 border border-slate-700">
+                  <div
+                    className="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-500 ease-out shadow-[0_0_10px_#10b981]"
+                    style={{ width: `${Math.min(96, 20 + analysisElapsedSeconds * 16)}%` }}
                   />
                 </div>
               </div>
@@ -852,16 +919,16 @@ export const ScannerScreen: React.FC<Props> = ({
                   <button
                     type="button"
                     onClick={handleBypassWait}
-                    className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-sm transition flex items-center gap-1.5 cursor-pointer active:scale-95"
+                    className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow-md transition flex items-center gap-1.5 cursor-pointer active:scale-95 border border-emerald-400"
                   >
-                    <Sparkles className="w-3.5 h-3.5 text-emerald-300" />
+                    <Sparkles className="w-3.5 h-3.5 text-amber-300" />
                     <span>Ver estimación directa ({analysisElapsedSeconds}s)</span>
                   </button>
                 )}
                 <button
                   type="button"
                   onClick={handleCancelAnalysis}
-                  className="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-semibold rounded-xl transition cursor-pointer"
+                  className="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition cursor-pointer border border-slate-700"
                 >
                   Cancelar
                 </button>

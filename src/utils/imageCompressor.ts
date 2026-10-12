@@ -4,8 +4,8 @@
  */
 export async function processAndCompressImage(
   fileOrDataUrl: File | string,
-  maxDimension = 1200,
-  quality = 0.85
+  maxDimension = 768,
+  quality = 0.78
 ): Promise<{ dataUrl: string; base64: string; mimeType: string }> {
   const compressionPromise = new Promise<{ dataUrl: string; base64: string; mimeType: string }>((resolve, reject) => {
     const img = new Image();

@@ -166,16 +166,26 @@ export const LiveCameraModal: React.FC<Props> = ({
       const video = videoRef.current;
       const canvas = canvasRef.current;
 
-      // Use native video frame resolution (typically 1920x1080 or 1280x720)
-      const w = video.videoWidth || 1280;
-      const h = video.videoHeight || 720;
-      canvas.width = w;
-      canvas.height = h;
+      // Standardize canvas dimensions for ultra-fast processing (<768px for real-time mobile speed)
+      const maxDim = 800;
+      let targetW = video.videoWidth || 1280;
+      let targetH = video.videoHeight || 720;
+      if (targetW > maxDim || targetH > maxDim) {
+        if (targetW > targetH) {
+          targetH = Math.round((targetH * maxDim) / targetW);
+          targetW = maxDim;
+        } else {
+          targetW = Math.round((targetW * maxDim) / targetH);
+          targetH = maxDim;
+        }
+      }
+      canvas.width = targetW;
+      canvas.height = targetH;
 
       const ctx = canvas.getContext('2d', { alpha: false });
       if (ctx) {
-        ctx.drawImage(video, 0, 0, w, h);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
+        ctx.drawImage(video, 0, 0, targetW, targetH);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.80);
 
         // Immediate cleanup and transition
         setTimeout(() => {
@@ -184,7 +194,7 @@ export const LiveCameraModal: React.FC<Props> = ({
           setShutterFlash(false);
           onCapture(dataUrl);
           onClose();
-        }, 120);
+        }, 60);
       } else {
         throw new Error('No canvas context');
       }

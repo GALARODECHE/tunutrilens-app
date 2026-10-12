@@ -88,3 +88,36 @@ button, a, input, select, textarea {
 ::-webkit-scrollbar-thumb:hover {
   background: #a8a29e;
 }
+
+/* Scanner HUD & Laser Animations */
+@keyframes scanLaser {
+  0% {
+    top: 4%;
+    opacity: 0.95;
+  }
+  50% {
+    top: 92%;
+    opacity: 1;
+  }
+  100% {
+    top: 4%;
+    opacity: 0.95;
+  }
+}
+
+.animate-scan-laser {
+  animation: scanLaser 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.35), 0 0 24px rgba(16, 185, 129, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(16, 185, 129, 0.6), 0 0 40px rgba(16, 185, 129, 0.25);
+  }
+}
+
+.animate-glow-pulse {
+  animation: pulseGlow 2.4s ease-in-out infinite;
+}

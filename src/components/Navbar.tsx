@@ -171,44 +171,137 @@ export const Navbar: React.FC<Props> = ({
         </div>
       </header>
 
-      {/* MOBILE BOTTOM NAVIGATION BAR (FIXED at the bottom for thumb ergonomics on phones) */}
+      {/* MOBILE BOTTOM NAVIGATION BAR (FIXED at the bottom with elevated Hero Scanner dock) */}
       <nav 
-        className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-lg border-t border-slate-200/90 shadow-2xl pb-[env(safe-area-inset-bottom,0px)]"
+        className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-slate-200/90 shadow-2xl pb-[env(safe-area-inset-bottom,0px)]"
         aria-label="Navegación principal en móvil"
       >
-        <div className="grid grid-cols-4 items-center h-16 max-w-lg mx-auto px-1">
-          {masterTabs.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = tab.activeCheck(currentTab);
-            return (
-              <button
-                key={tab.id}
-                onClick={() => onTabChange(tab.id)}
-                className={`h-full flex flex-col items-center justify-center gap-1 transition-all cursor-pointer select-none active:scale-95 relative ${
-                  isActive
-                    ? 'text-emerald-700 font-black'
-                    : 'text-slate-500 hover:text-slate-800 font-bold'
-                }`}
-              >
-                {/* Active indicator bar */}
-                {isActive && (
-                  <span className="absolute top-0 inset-x-4 h-0.5 bg-emerald-600 rounded-full" />
-                )}
-                
-                <div className={`p-1 rounded-xl transition-all ${
-                  isActive ? 'bg-emerald-100 text-emerald-800 scale-105' : 'text-slate-500'
-                }`}>
-                  <Icon className="w-5 h-5 shrink-0" />
-                </div>
+        <div className="grid grid-cols-5 items-center h-16 max-w-md mx-auto px-1 relative">
+          {/* 1. Mi Nutrición */}
+          <button
+            type="button"
+            onClick={() => onTabChange('nutrition')}
+            className={`h-full flex flex-col items-center justify-center gap-1 transition-all cursor-pointer select-none active:scale-95 ${
+              ['nutrition', 'diary', 'weeklyPlan', 'progress'].includes(currentTab)
+                ? 'text-emerald-700 font-black'
+                : 'text-slate-500 hover:text-slate-800 font-bold'
+            }`}
+          >
+            <div className={`p-1.5 rounded-xl transition-all ${
+              ['nutrition', 'diary', 'weeklyPlan', 'progress'].includes(currentTab)
+                ? 'bg-emerald-100 text-emerald-800 scale-105'
+                : 'text-slate-500'
+            }`}>
+              <Apple className="w-4.5 h-4.5 shrink-0" />
+            </div>
+            <span className={`text-[10px] leading-tight tracking-tight ${
+              ['nutrition', 'diary', 'weeklyPlan', 'progress'].includes(currentTab)
+                ? 'font-black text-emerald-900'
+                : 'font-semibold text-slate-600'
+            }`}>
+              Nutrición
+            </span>
+          </button>
 
-                <span className={`text-[10px] leading-tight tracking-tight ${
-                  isActive ? 'font-black text-emerald-900' : 'font-semibold text-slate-600'
-                }`}>
-                  {tab.mobileLabel}
-                </span>
-              </button>
-            );
-          })}
+          {/* 2. Descubrir */}
+          <button
+            type="button"
+            onClick={() => onTabChange('explore')}
+            className={`h-full flex flex-col items-center justify-center gap-1 transition-all cursor-pointer select-none active:scale-95 ${
+              ['explore', 'plans', 'seasonal', 'lifeStages'].includes(currentTab)
+                ? 'text-emerald-700 font-black'
+                : 'text-slate-500 hover:text-slate-800 font-bold'
+            }`}
+          >
+            <div className={`p-1.5 rounded-xl transition-all ${
+              ['explore', 'plans', 'seasonal', 'lifeStages'].includes(currentTab)
+                ? 'bg-emerald-100 text-emerald-800 scale-105'
+                : 'text-slate-500'
+            }`}>
+              <Compass className="w-4.5 h-4.5 shrink-0" />
+            </div>
+            <span className={`text-[10px] leading-tight tracking-tight ${
+              ['explore', 'plans', 'seasonal', 'lifeStages'].includes(currentTab)
+                ? 'font-black text-emerald-900'
+                : 'font-semibold text-slate-600'
+            }`}>
+              Descubrir
+            </span>
+          </button>
+
+          {/* 3. HERO SCANNER: Botón Central Flotante y Elevado */}
+          <div className="flex flex-col items-center justify-center -mt-6">
+            <button
+              type="button"
+              onClick={() => onTabChange('scanner')}
+              className={`w-13 h-13 rounded-full flex items-center justify-center shadow-xl ring-4 ring-white transition-all cursor-pointer select-none active:scale-90 group relative ${
+                ['scanner', 'zerowaste'].includes(currentTab)
+                  ? 'bg-gradient-to-tr from-emerald-700 via-emerald-600 to-teal-500 text-white shadow-emerald-500/40 animate-glow-pulse scale-105'
+                  : 'bg-gradient-to-tr from-emerald-600 to-teal-600 text-white hover:brightness-110 shadow-emerald-600/30'
+              }`}
+              title="Escanear plato o etiqueta"
+            >
+              <div className="absolute inset-0 rounded-full bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <Camera className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+            </button>
+            <span className={`text-[10px] mt-1 tracking-tight font-black ${
+              ['scanner', 'zerowaste'].includes(currentTab) ? 'text-emerald-800' : 'text-slate-600'
+            }`}>
+              Escanear
+            </span>
+          </div>
+
+          {/* 4. Planes */}
+          <button
+            type="button"
+            onClick={() => onTabChange('pricing')}
+            className={`h-full flex flex-col items-center justify-center gap-1 transition-all cursor-pointer select-none active:scale-95 ${
+              currentTab === 'pricing'
+                ? 'text-emerald-700 font-black'
+                : 'text-slate-500 hover:text-slate-800 font-bold'
+            }`}
+          >
+            <div className={`p-1.5 rounded-xl transition-all ${
+              currentTab === 'pricing'
+                ? 'bg-emerald-100 text-emerald-800 scale-105'
+                : 'text-slate-500'
+            }`}>
+              <CreditCard className="w-4.5 h-4.5 shrink-0" />
+            </div>
+            <span className={`text-[10px] leading-tight tracking-tight ${
+              currentTab === 'pricing'
+                ? 'font-black text-emerald-900'
+                : 'font-semibold text-slate-600'
+            }`}>
+              Planes
+            </span>
+          </button>
+
+          {/* 5. Mi Perfil */}
+          <button
+            type="button"
+            onClick={() => onTabChange('profile')}
+            className={`h-full flex flex-col items-center justify-center gap-1 transition-all cursor-pointer select-none active:scale-95 ${
+              currentTab === 'profile'
+                ? 'text-emerald-700 font-black'
+                : 'text-slate-500 hover:text-slate-800 font-bold'
+            }`}
+          >
+            <div className={`p-1.5 rounded-xl transition-all ${
+              currentTab === 'profile'
+                ? 'bg-emerald-100 text-emerald-800 scale-105'
+                : 'text-slate-500'
+            }`}>
+              <User className="w-4.5 h-4.5 shrink-0" />
+            </div>
+            <span className={`text-[10px] leading-tight tracking-tight ${
+              currentTab === 'profile'
+                ? 'font-black text-emerald-900'
+                : 'font-semibold text-slate-600'
+            }`}>
+              Perfil
+            </span>
+          </button>
         </div>
       </nav>
     </>

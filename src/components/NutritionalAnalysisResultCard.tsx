@@ -126,6 +126,8 @@ export const NutritionalAnalysisResultCard: React.FC<Props> = ({
   const [savedToRecipesSuccess, setSavedToRecipesSuccess] = useState(false);
   const [isEditingFullDish, setIsEditingFullDish] = useState(false);
   const [isWeeklyPlanModalOpen, setIsWeeklyPlanModalOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<'macros' | 'harvard' | 'ingredients' | 'advice'>('macros');
+  const [viewAllSections, setViewAllSections] = useState<boolean>(false);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   // Editable local state
@@ -466,100 +468,184 @@ export const NutritionalAnalysisResultCard: React.FC<Props> = ({
         )}
       </div>
 
-      {/* Grid 2x2 de Tarjetas de Macronutrientes Claras y Frescas */}
-      <div className="grid grid-cols-2 gap-3 sm:gap-4">
-        {/* Calorías */}
-        <div className="bg-gradient-to-br from-emerald-50 via-teal-50 to-teal-100/50 rounded-2xl p-4 border border-emerald-200/80 shadow-2xs flex flex-col justify-between">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-emerald-950">Calorías Totales</span>
-            <div className="p-2 rounded-xl bg-emerald-600 text-white shadow-xs">
-              <Flame className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="mt-2">
-            <div className="flex items-baseline gap-1">
-              <span className="text-2xl sm:text-3xl font-black text-emerald-950">{currentMeal.calories}</span>
-              <span className="text-xs font-extrabold text-emerald-700">kcal</span>
-            </div>
-            <span className="text-[11px] font-semibold text-emerald-800/80">Energía aportada</span>
-          </div>
+      {/* Selector de Pestañas Compacto - Oportunidad de Mejora 2 */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-stone-100/90 p-1.5 rounded-2xl border border-stone-200 shadow-2xs">
+        <div className="grid grid-cols-4 gap-1 flex-1">
+          <button
+            type="button"
+            onClick={() => { setActiveSection('macros'); setViewAllSections(false); }}
+            className={`py-2 px-1.5 sm:px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer select-none active:scale-95 ${
+              activeSection === 'macros' && !viewAllSections
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : 'text-stone-600 hover:text-stone-900 hover:bg-white/80'
+            }`}
+          >
+            <Flame className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">Macros</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => { setActiveSection('harvard'); setViewAllSections(false); }}
+            className={`py-2 px-1.5 sm:px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer select-none active:scale-95 ${
+              activeSection === 'harvard' && !viewAllSections
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : 'text-stone-600 hover:text-stone-900 hover:bg-white/80'
+            }`}
+          >
+            <Activity className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">Harvard</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => { setActiveSection('ingredients'); setViewAllSections(false); }}
+            className={`py-2 px-1.5 sm:px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer select-none active:scale-95 ${
+              activeSection === 'ingredients' && !viewAllSections
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : 'text-stone-600 hover:text-stone-900 hover:bg-white/80'
+            }`}
+          >
+            <Leaf className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">Ingredientes</span>
+            <span className={`text-[10px] px-1 rounded-full font-black ${
+              activeSection === 'ingredients' && !viewAllSections ? 'bg-emerald-800 text-white' : 'bg-stone-200 text-stone-700'
+            }`}>
+              {currentMeal.foodItems?.length || 0}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => { setActiveSection('advice'); setViewAllSections(false); }}
+            className={`py-2 px-1.5 sm:px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer select-none active:scale-95 ${
+              activeSection === 'advice' && !viewAllSections
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : 'text-stone-600 hover:text-stone-900 hover:bg-white/80'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">Consejos</span>
+          </button>
         </div>
 
-        {/* Proteínas */}
-        <div className="bg-gradient-to-br from-teal-50 via-cyan-50 to-emerald-50/50 rounded-2xl p-4 border border-teal-200/80 shadow-2xs flex flex-col justify-between">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-teal-950">Proteínas</span>
-            <div className="p-2 rounded-xl bg-teal-600 text-white shadow-xs">
-              <Dumbbell className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="mt-2">
-            <div className="flex items-baseline gap-1">
-              <span className="text-2xl sm:text-3xl font-black text-slate-900">{Math.round(currentMeal.proteinGrams)}</span>
-              <span className="text-xs font-extrabold text-teal-700">g</span>
-            </div>
-            <span className="text-[11px] font-semibold text-teal-800/80">{proteinPct}% del total kcal</span>
-          </div>
-        </div>
-
-        {/* Carbohidratos */}
-        <div className="bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50/40 rounded-2xl p-4 border border-sky-200/80 shadow-2xs flex flex-col justify-between">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-sky-950">Carbohidratos</span>
-            <div className="p-2 rounded-xl bg-sky-500 text-white shadow-xs">
-              <Wheat className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="mt-2">
-            <div className="flex items-baseline gap-1">
-              <span className="text-2xl sm:text-3xl font-black text-slate-900">{Math.round(currentMeal.carbsGrams)}</span>
-              <span className="text-xs font-extrabold text-sky-700">g</span>
-            </div>
-            <span className="text-[11px] font-semibold text-sky-800/80">{carbsPct}% del total kcal</span>
-          </div>
-        </div>
-
-        {/* Grasas */}
-        <div className="bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50/40 rounded-2xl p-4 border border-amber-200/80 shadow-2xs flex flex-col justify-between">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-amber-950">Grasas</span>
-            <div className="p-2 rounded-xl bg-amber-500 text-white shadow-xs">
-              <Droplets className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="mt-2">
-            <div className="flex items-baseline gap-1">
-              <span className="text-2xl sm:text-3xl font-black text-slate-900">{Math.round(currentMeal.fatGrams)}</span>
-              <span className="text-xs font-extrabold text-amber-700">g</span>
-            </div>
-            <span className="text-[11px] font-semibold text-amber-800/80">{fatPct}% del total kcal</span>
-          </div>
-        </div>
+        {/* Toggle para alternar entre vista por pestañas y ver todo */}
+        <button
+          type="button"
+          onClick={() => setViewAllSections(!viewAllSections)}
+          className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all flex items-center justify-center gap-1 cursor-pointer shrink-0 border select-none active:scale-95 ${
+            viewAllSections
+              ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
+              : 'bg-white hover:bg-stone-50 text-stone-600 border-stone-200'
+          }`}
+          title={viewAllSections ? 'Volver a vista por pestañas ordenadas' : 'Ver todas las secciones en cascada'}
+        >
+          <span>{viewAllSections ? '📑 Modo Pestañas' : '👁️ Ver Todo'}</span>
+        </button>
       </div>
 
-      {/* Tarjetas Secundarias: Fibra, Azúcar, Grasa Sat. */}
-      <div className="grid grid-cols-3 gap-2 text-center">
-        <div className="bg-white rounded-2xl p-2.5 border border-stone-200 shadow-2xs">
-          <div className="text-[10px] text-stone-500 font-bold uppercase">Fibra</div>
-          <div className="text-sm font-black text-stone-800">{currentMeal.fiberGrams}g</div>
-        </div>
-        <div className="bg-white rounded-2xl p-2.5 border border-stone-200 shadow-2xs">
-          <div className="text-[10px] text-stone-500 font-bold uppercase">Azúcares</div>
-          <div className="text-sm font-black text-stone-800">{currentMeal.sugarGrams}g</div>
-        </div>
-        <div className="bg-white rounded-2xl p-2.5 border border-stone-200 shadow-2xs">
-          <div className="text-[10px] text-stone-500 font-bold uppercase">Grasa Sat.</div>
-          <div className="text-sm font-black text-stone-800">{currentMeal.saturatedFatGrams}g</div>
-        </div>
-      </div>
+      {/* 1. SECCIÓN: MACRONUTRIENTES & ENERGÍA */}
+      {(viewAllSections || activeSection === 'macros') && (
+        <div className="space-y-3 sm:space-y-4 animate-in fade-in duration-200">
+          {/* Grid 2x2 de Tarjetas de Macronutrientes Claras y Frescas */}
+          <div className="grid grid-cols-2 gap-3 sm:gap-4">
+            {/* Calorías */}
+            <div className="bg-gradient-to-br from-emerald-50 via-teal-50 to-teal-100/50 rounded-2xl p-4 border border-emerald-200/80 shadow-2xs flex flex-col justify-between">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-emerald-950">Calorías Totales</span>
+                <div className="p-2 rounded-xl bg-emerald-600 text-white shadow-xs">
+                  <Flame className="w-4 h-4" />
+                </div>
+              </div>
+              <div className="mt-2">
+                <div className="flex items-baseline gap-1">
+                  <span className="text-2xl sm:text-3xl font-black text-emerald-950">{currentMeal.calories}</span>
+                  <span className="text-xs font-extrabold text-emerald-700">kcal</span>
+                </div>
+                <span className="text-[11px] font-semibold text-emerald-800/80">Energía aportada</span>
+              </div>
+            </div>
 
-      {/* METODO DEL PLATO DE HARVARD & RATIO DE POLIFENOLES / AOVE */}
-      <HarvardPlateCard meal={currentMeal} />
+            {/* Proteínas */}
+            <div className="bg-gradient-to-br from-teal-50 via-cyan-50 to-emerald-50/50 rounded-2xl p-4 border border-teal-200/80 shadow-2xs flex flex-col justify-between">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-teal-950">Proteínas</span>
+                <div className="p-2 rounded-xl bg-teal-600 text-white shadow-xs">
+                  <Dumbbell className="w-4 h-4" />
+                </div>
+              </div>
+              <div className="mt-2">
+                <div className="flex items-baseline gap-1">
+                  <span className="text-2xl sm:text-3xl font-black text-slate-900">{Math.round(currentMeal.proteinGrams)}</span>
+                  <span className="text-xs font-extrabold text-teal-700">g</span>
+                </div>
+                <span className="text-[11px] font-semibold text-teal-800/80">{proteinPct}% del total kcal</span>
+              </div>
+            </div>
 
-      {/* ========================================================================= */}
-      {/* SECCIÓN CLAVE SOLICITADA: GESTOR DE INGREDIENTES A MANO (AÑADIR / ELIMINAR) */}
-      {/* ========================================================================= */}
-      <div className="bg-white rounded-3xl p-5 border-2 border-emerald-200/90 shadow-sm space-y-4">
+            {/* Carbohidratos */}
+            <div className="bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50/40 rounded-2xl p-4 border border-sky-200/80 shadow-2xs flex flex-col justify-between">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-sky-950">Carbohidratos</span>
+                <div className="p-2 rounded-xl bg-sky-500 text-white shadow-xs">
+                  <Wheat className="w-4 h-4" />
+                </div>
+              </div>
+              <div className="mt-2">
+                <div className="flex items-baseline gap-1">
+                  <span className="text-2xl sm:text-3xl font-black text-slate-900">{Math.round(currentMeal.carbsGrams)}</span>
+                  <span className="text-xs font-extrabold text-sky-700">g</span>
+                </div>
+                <span className="text-[11px] font-semibold text-sky-800/80">{carbsPct}% del total kcal</span>
+              </div>
+            </div>
+
+            {/* Grasas */}
+            <div className="bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50/40 rounded-2xl p-4 border border-amber-200/80 shadow-2xs flex flex-col justify-between">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-amber-950">Grasas</span>
+                <div className="p-2 rounded-xl bg-amber-500 text-white shadow-xs">
+                  <Droplets className="w-4 h-4" />
+                </div>
+              </div>
+              <div className="mt-2">
+                <div className="flex items-baseline gap-1">
+                  <span className="text-2xl sm:text-3xl font-black text-slate-900">{Math.round(currentMeal.fatGrams)}</span>
+                  <span className="text-xs font-extrabold text-amber-700">g</span>
+                </div>
+                <span className="text-[11px] font-semibold text-amber-800/80">{fatPct}% del total kcal</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Tarjetas Secundarias: Fibra, Azúcar, Grasa Sat. */}
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="bg-white rounded-2xl p-2.5 border border-stone-200 shadow-2xs">
+              <div className="text-[10px] text-stone-500 font-bold uppercase">Fibra</div>
+              <div className="text-sm font-black text-stone-800">{currentMeal.fiberGrams}g</div>
+            </div>
+            <div className="bg-white rounded-2xl p-2.5 border border-stone-200 shadow-2xs">
+              <div className="text-[10px] text-stone-500 font-bold uppercase">Azúcares</div>
+              <div className="text-sm font-black text-stone-800">{currentMeal.sugarGrams}g</div>
+            </div>
+            <div className="bg-white rounded-2xl p-2.5 border border-stone-200 shadow-2xs">
+              <div className="text-[10px] text-stone-500 font-bold uppercase">Grasa Sat.</div>
+              <div className="text-sm font-black text-stone-800">{currentMeal.saturatedFatGrams}g</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 2. SECCIÓN: METODO DEL PLATO DE HARVARD & RATIO DE POLIFENOLES / AOVE */}
+      {(viewAllSections || activeSection === 'harvard') && (
+        <div className="animate-in fade-in duration-200">
+          <HarvardPlateCard meal={currentMeal} />
+        </div>
+      )}
+
+      {/* 3. SECCIÓN: GESTOR DE INGREDIENTES A MANO (AÑADIR / ELIMINAR) */}
+      {(viewAllSections || activeSection === 'ingredients') && (
+        <div className="bg-white rounded-3xl p-5 border-2 border-emerald-200/90 shadow-sm space-y-4 animate-in fade-in duration-200">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-100 pb-3">
           <div className="flex items-center gap-2.5">
             <div className="p-2 bg-emerald-100 text-emerald-800 rounded-xl">
@@ -733,7 +819,11 @@ export const NutritionalAnalysisResultCard: React.FC<Props> = ({
           )}
         </div>
       </div>
+      )}
 
+      {/* 4. SECCIÓN: CONSEJOS IA & MICRONUTRIENTES */}
+      {(viewAllSections || activeSection === 'advice') && (
+        <div className="space-y-3 sm:space-y-4 animate-in fade-in duration-200">
       {/* Micronutrientes desplegables */}
       <div className="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-2xs">
         <button
@@ -804,6 +894,8 @@ export const NutritionalAnalysisResultCard: React.FC<Props> = ({
               </li>
             ))}
           </ul>
+        </div>
+      )}
         </div>
       )}
 

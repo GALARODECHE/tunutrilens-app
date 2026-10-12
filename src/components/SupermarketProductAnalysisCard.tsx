@@ -83,6 +83,8 @@ export const SupermarketProductAnalysisCard: React.FC<Props> = ({
   onNavigateToWeeklyPlan,
 }) => {
   const [isWeeklyPlanModalOpen, setIsWeeklyPlanModalOpen] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<'trafficLight' | 'ingredients' | 'recipes'>('trafficLight');
+  const [viewAll, setViewAll] = useState<boolean>(false);
 
   const getVerdictBadge = () => {
     switch (product.verdict) {
@@ -293,8 +295,62 @@ export const SupermarketProductAnalysisCard: React.FC<Props> = ({
       </div>
 
       <div className="px-6 space-y-6">
-        {/* Badges Row: Semáforo Saludable Abierto + Clasificación NOVA */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Selector de Pestañas Compacto - Semáforo / Ingredientes / Recetas */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-slate-100/90 p-1.5 rounded-2xl border border-slate-200">
+          <div className="grid grid-cols-3 gap-1 flex-1">
+            <button
+              type="button"
+              onClick={() => { setActiveTab('trafficLight'); setViewAll(false); }}
+              className={`py-2 px-1.5 sm:px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer select-none active:scale-95 ${
+                activeTab === 'trafficLight' && !viewAll
+                  ? 'bg-emerald-600 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
+              }`}
+            >
+              <span className="truncate">🚦 Semáforo</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => { setActiveTab('ingredients'); setViewAll(false); }}
+              className={`py-2 px-1.5 sm:px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer select-none active:scale-95 ${
+                activeTab === 'ingredients' && !viewAll
+                  ? 'bg-emerald-600 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
+              }`}
+            >
+              <span className="truncate">🧪 Ingredientes</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => { setActiveTab('recipes'); setViewAll(false); }}
+              className={`py-2 px-1.5 sm:px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer select-none active:scale-95 ${
+                activeTab === 'recipes' && !viewAll
+                  ? 'bg-emerald-600 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
+              }`}
+            >
+              <span className="truncate">🥗 Recetas</span>
+            </button>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setViewAll(!viewAll)}
+            className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all flex items-center justify-center gap-1 cursor-pointer shrink-0 border select-none active:scale-95 ${
+              viewAll
+                ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
+                : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200'
+            }`}
+          >
+            <span>{viewAll ? '📑 Modo Pestañas' : '👁️ Ver Todo'}</span>
+          </button>
+        </div>
+
+        {/* 1. SECCIÓN: SEMÁFORO & NUTRIENTES */}
+        {(viewAll || activeTab === 'trafficLight') && (
+          <div className="space-y-5 animate-in fade-in duration-200">
+            {/* Badges Row: Semáforo Saludable Abierto + Clasificación NOVA */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Semáforo de Salud Abierto */}
           <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200/80 space-y-2.5">
             <div className="flex items-center justify-between">
@@ -435,9 +491,14 @@ export const SupermarketProductAnalysisCard: React.FC<Props> = ({
             </div>
           </div>
         </div>
+          </div>
+        )}
 
-        {/* Qualities & Additives Breakdown */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* 2. SECCIÓN: INGREDIENTES & ADITIVOS */}
+        {(viewAll || activeTab === 'ingredients') && (
+          <div className="space-y-4 animate-in fade-in duration-200">
+            {/* Qualities & Additives Breakdown */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Mediterranean Qualities */}
           {product.mediterraneanQualities && product.mediterraneanQualities.length > 0 && (
             <div className="bg-emerald-50/70 border border-emerald-200/80 rounded-2xl p-4 space-y-2">
@@ -504,28 +565,35 @@ export const SupermarketProductAnalysisCard: React.FC<Props> = ({
             </p>
           </div>
         )}
-
-        {/* Healthy Mediterranean Alternative Recommendation */}
-        {product.healthyAlternative && (
-          <div className="bg-gradient-to-r from-amber-50 to-emerald-50 border border-emerald-300 rounded-2xl p-4 space-y-2">
-            <div className="flex items-center gap-2 text-emerald-900 font-bold text-sm">
-              <Sparkles className="w-4 h-4 text-amber-500" />
-              <span>Alternativa Mediterránea Recomendada en Supermercado:</span>
-            </div>
-            <p className="text-xs text-slate-800 leading-relaxed font-medium">
-              {product.healthyAlternative}
-            </p>
           </div>
         )}
 
-        {/* Dedicated Recipes Generator with Scanned Product & Ingredients */}
-        <ScannedProductRecipeSection
-          productName={product.productName}
-          brand={product.brand}
-          ingredients={product.ingredientsList}
-          userProfile={userProfile}
-          onAddMealToDiary={onSaveMealAnalysis}
-        />
+        {/* 3. SECCIÓN: RECETAS SALUDABLES & ALTERNATIVAS */}
+        {(viewAll || activeTab === 'recipes') && (
+          <div className="space-y-5 animate-in fade-in duration-200">
+            {/* Healthy Mediterranean Alternative Recommendation */}
+            {product.healthyAlternative && (
+              <div className="bg-gradient-to-r from-amber-50 to-emerald-50 border border-emerald-300 rounded-2xl p-4 space-y-2">
+                <div className="flex items-center gap-2 text-emerald-900 font-bold text-sm">
+                  <Sparkles className="w-4 h-4 text-amber-500" />
+                  <span>Alternativa Mediterránea Recomendada en Supermercado:</span>
+                </div>
+                <p className="text-xs text-slate-800 leading-relaxed font-medium">
+                  {product.healthyAlternative}
+                </p>
+              </div>
+            )}
+
+            {/* Dedicated Recipes Generator with Scanned Product & Ingredients */}
+            <ScannedProductRecipeSection
+              productName={product.productName}
+              brand={product.brand}
+              ingredients={product.ingredientsList}
+              userProfile={userProfile}
+              onAddMealToDiary={onSaveMealAnalysis}
+            />
+          </div>
+        )}
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 pb-6 border-t border-slate-100">
